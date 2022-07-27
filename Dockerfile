@@ -14,8 +14,8 @@ RUN cd /tmp && tar xvfz tomcat.tar.gz
 RUN cp -Rv /tmp/apache-tomcat-9.0.65/* /opt/tomcat/
 
 # clone repo
-RUN cd /tmp/repos && git clone https://github.com/nirshif/hello-world-war.git && git checkout ns-es
-#RUN cd /tmp/repos/hello-world-war
+RUN cd /tmp/repos && git clone https://github.com/nirshif/hello-world-war.git
+RUN cd /tmp/repos/hello-world-war && git checkout ns-es
 #RUN git checkout ns-es
 
 # mvn install
