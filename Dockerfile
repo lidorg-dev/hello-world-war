@@ -30,6 +30,8 @@ RUN cp /tmp/repos/hello-world-war/target/hello-world-war-*.war /opt/tomcat/webap
 EXPOSE 8060
 # java
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
+ENV CATALINA_HOME /opt/tomcat/
+
 
 # Define default command.
 CMD ["bash"]
