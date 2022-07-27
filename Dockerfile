@@ -1,7 +1,7 @@
 FROM ubuntu
 
 # Install prerequisites
-RUN apt-get -y update &amp;&amp; apt-get -y upgrade
+RUN apt-get -y update && apt-get -y upgrade
 RUN apt-get -y install openjdk-8-jdk wget
 RUN apt-get -y install curl
 RUN apt-get -y install maven
@@ -10,7 +10,7 @@ RUN mkdir /opt/tomcat/
 RUN mkdir /opt/webapp/
 RUN mkdir /tmp/repos
 RUN wget https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.65/bin/apache-tomcat-9.0.65.tar.gz -O /tmp/tomcat.tar.gz
-RUN cd /tmp &amp;&amp; tar xvfz tomcat.tar.gz
+RUN cd /tmp && tar xvfz tomcat.tar.gz
 RUN cp -Rv /tmp/apache-tomcat-9.0.65/* /opt/tomcat/
 
 # clone repo
