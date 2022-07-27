@@ -25,9 +25,9 @@ WORKDIR  /tmp/repos/hello-world-war
 RUN mvn install
 
 # Copy war to folder
-RUN cp /tmp/repos/hello-world-war/target/hello-world-war-*.war /opt/tomcat/webapps
+RUN cp /tmp/repos/hello-world-war/target/hello-world-war-1.0.0.war /opt/tomcat/webapps/helloworld
 
-EXPOSE 8080
+EXPOSE 8060:8080
 # java
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
 ENV CATALINA_HOME /opt/tomcat/
@@ -39,6 +39,5 @@ CMD ["bash"]
 
 # run war in tomcat
 WORKDIR /opt/tomcat/webapps
-#RUN /opt/tomcat/webapps/hello-world-war-*.war
 
 CMD ["/opt/tomcat/bin/catalina.sh", "run"]
