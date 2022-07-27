@@ -27,7 +27,7 @@ RUN mvn install
 # Copy war to folder
 RUN cp /tmp/repos/hello-world-war/target/hello-world-war-*.war /opt/tomcat/webapps
 
-EXPOSE 8060
+EXPOSE 8080
 # java
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
 ENV CATALINA_HOME /opt/tomcat/
