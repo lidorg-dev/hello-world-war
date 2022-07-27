@@ -25,9 +25,9 @@ WORKDIR  /tmp/repos/hello-world-war
 RUN mvn install
 
 # Copy war to folder
-RUN cp /tmp/repos/hello-world-war/target/hello-world-war-1.0.0.war /opt/tomcat/webapps/helloworld
+RUN cp /tmp/repos/hello-world-war/target/hello-world-war-1.0.0.war /opt/tomcat/webapps/helloworld.war
 
-EXPOSE 8060:8080
+EXPOSE 8080
 # java
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
 ENV CATALINA_HOME /opt/tomcat/
