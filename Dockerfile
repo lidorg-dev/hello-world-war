@@ -39,4 +39,4 @@ CMD ["bash"]
 WORKDIR /opt/tomcat/webapps
 #RUN /opt/tomcat/webapps/hello-world-war-*.war
 
-CMD ["catalina.sh", "run"]
+CMD ["/opt/tomcat/bin/catalina.sh", "run"]
