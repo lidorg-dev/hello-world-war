@@ -14,12 +14,15 @@ RUN cd /tmp && tar xvfz tomcat.tar.gz
 RUN cp -Rv /tmp/apache-tomcat-9.0.65/* /opt/tomcat/
 
 # clone repo
-RUN cd /tmp/repos && git clone https://github.com/nirshif/hello-world-war.git
+WORKDIR  /tmp/repos
+RUN git clone https://github.com/nirshif/hello-world-war.git
 RUN cd /tmp/repos/hello-world-war && git checkout ns-es
 #RUN git checkout ns-es
 
 # mvn install
-RUN cd /tmp/repos/hello-world-war && mvn install
+WORKDIR  /tmp/repos/hello-world-war 
+
+RUN mvn install
 
 # Copy war to folder
 RUN cp /tmp/repos/hello-world-war/target/hello-world-war-*.war /opt/tomcat/webapps
@@ -34,6 +37,6 @@ CMD ["bash"]
 
 # run war in tomcat
 WORKDIR /opt/tomcat/webapps
-RUN /opt/tomcat/webapps/hello-world-war-*.war
+#RUN /opt/tomcat/webapps/hello-world-war-*.war
 
-CMD ["/opt/tomcat/bin/catalina.sh", "run"]
+CMD ["catalina.sh", "run"]
