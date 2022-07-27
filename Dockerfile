@@ -33,7 +33,7 @@ CMD ["bash"]
 
 
 # run war in tomcat
-#WORKDIR /opt/tomcat/webapps
-#RUN /opt/tomcat/webapps/hello-world-war-*.war
+WORKDIR /opt/tomcat/webapps
+RUN /opt/tomcat/webapps/hello-world-war-*.war
 
-#CMD ["/opt/tomcat/bin/catalina.sh", "run"]
+CMD ["/opt/tomcat/bin/catalina.sh", "run"]
