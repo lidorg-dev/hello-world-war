@@ -1,8 +1,12 @@
-FROM openjdk:11.0.15
-WORKDIR /project/hello-world-war
-COPY . .
-RUN mvn compile
-RUN mvn test
-RUN mvn package
-EXPOSE 8080
-ENTRYPOINT ["mvn", "-v"]
+pipeline {
+    agent { docker { image 'maven:3.3.3' } }
+      stages {
+        stage('log version info') {
+      steps {
+        sh 'mvn compile'
+        sh 'mvn test'
+        sh 'package'
+      }
+    }
+  }
+}
