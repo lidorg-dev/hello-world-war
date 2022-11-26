@@ -1,0 +1,43 @@
+FROM ubuntu
+
+# Install prerequisites
+RUN apt-get -y update && apt-get -y upgrade
+RUN apt-get -y install openjdk-8-jdk wget
+RUN apt-get -y install curl
+RUN apt-get -y install maven
+RUN apt-get -y install git
+RUN mkdir /opt/tomcat/
+RUN mkdir /opt/webapp/
+RUN mkdir /tmp/repos
+RUN wget https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.65/bin/apache-tomcat-9.0.65.tar.gz -O /tmp/tomcat.tar.gz
+RUN cd /tmp && tar xvfz tomcat.tar.gz
+RUN cp -Rv /tmp/apache-tomcat-9.0.65/* /opt/tomcat/
+
+# clone repo
+WORKDIR  /tmp/repos
+RUN git clone https://github.com/nirshif/hello-world-war.git
+RUN cd /tmp/repos/hello-world-war && git checkout ns-es
+#RUN git checkout ns-es
+
+# mvn install
+WORKDIR  /tmp/repos/hello-world-war 
+
+RUN mvn install
+
+# Copy war to folder
+RUN cp /tmp/repos/hello-world-war/target/hello-world-war-1.0.0.war /opt/tomcat/webapps/helloworld.war
+
+EXPOSE 8080
+# java
+ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
+ENV CATALINA_HOME /opt/tomcat/
+
+
+# Define default command.
+CMD ["bash"]
+
+
+# run war in tomcat
+WORKDIR /opt/tomcat/webapps
+
+CMD ["/opt/tomcat/bin/catalina.sh", "run"]
