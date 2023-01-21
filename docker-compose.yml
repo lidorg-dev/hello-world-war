@@ -1,0 +1,20 @@
+version: '3'
+services:
+  wordpress:
+    image: wordpress
+    ports:
+      - 8080:80
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: igor
+      WORDPRESS_DB_PASSWORD: a1a1a1
+      WORDPRESS_DB_NAME: wordpressdb
+    depends_on:
+      - db
+  db:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: a1a1a1
+      MYSQL_DATABASE: wordpressdb
+      MYSQL_USER: igor
+      MYSQL_PASSWORD: a1a1a1
