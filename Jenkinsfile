@@ -8,9 +8,9 @@ pipeline {
     triggers {
   pollSCM '* * * * *'
 }
-    tools {
+    /*tools {
         maven 'Default Maven'
-    }
+    }*/
     stages {
         stage('checkout code') {
             steps {
