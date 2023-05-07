@@ -14,33 +14,18 @@ pipeline {
                 checkout([$class: 'GitSCM', branches: [[name: '*/dev--ans']], extensions: [], userRemoteConfigs: [[credentialsId: 'github-ssh', url: 'https://github.com/igor1234567/Infrastructure.git']]])
             }
         }
+	stage('SonarQube Analysis') {
+                 def mvn = tool 'Default Maven';
+                 withSonarQubeEnv() {
+                 sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=module-5 -Dsonar.projectName='module-5'"
+             }
+         }
         stage('Build') {
             steps {
 		        sh 'mvn clean install'	
                 sh '''docker build . -t igorripin/infrastructure_mvn:${BUILD_ID} '''
             }
         }
-	  /*stage('SonarQube Analysis') {
-           agent { 
-        	   label 'aws-sonarqube' 
-    		}
-            steps {
-                withSonarQubeEnv('SonarQube-Server') {
-                    sh 'mvn sonar:sonar'
-                }
-            }
-        }*/
-        node {
-            stage('SCM') {
-                checkout scm
-            }
-            stage('SonarQube Analysis') {
-                    def mvn = tool 'Default Maven';
-                    withSonarQubeEnv() {
-                    sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=module-5 -Dsonar.projectName='module-5'"
-                    }
-                }
-            }
         stage('Build and Push Docker Image') {
             steps {
 
