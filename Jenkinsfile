@@ -3,6 +3,9 @@ pipeline {
     agent { 
         label 'nexus_ubuntu' 
     }
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials('docker_user')
+  }
 
     triggers {
         pollSCM '* * * * *'
