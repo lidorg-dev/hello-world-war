@@ -15,7 +15,7 @@ pipeline {
             }
         }
 	stage('SonarQube Analysis') {
-                 sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=module-5 -Dsonar.projectName='module-5'"
+                 sh '''${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=module-5 -Dsonar.projectName="module-5"'''
          }
         stage('Build') {
             steps {
