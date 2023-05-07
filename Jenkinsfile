@@ -43,11 +43,18 @@ pipeline {
                     sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
             }
     }
-        stage('Build and Push Docker Image') {
+        stage('Build and Push To Docker Image') {
             steps {
                         sh '''docker push igorripin/infrastructure_mvn:${BUILD_ID}'''
+            }
+        }
+        stage('Build and Push To Nexus Image') {
+            steps {
+                    withCredentials([usernamePassword(credentialsId: 'nexus_user', passwordVariable: 'nexus_pass', usernameVariable: 'nexus_user')]) {
+
                         sh '''docker login 3.72.80.151:8083 -u $nexus_user -p $nexus_pass'''
                         sh '''docker push 3.72.80.151:8083/infrastructure_mvn:${BUILD_ID}'''
+                 }
             }
         }
     }
