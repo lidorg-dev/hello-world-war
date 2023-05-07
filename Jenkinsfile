@@ -17,14 +17,18 @@ pipeline {
                 checkout([$class: 'GitSCM', branches: [[name: '*/dev--ans']], extensions: [], userRemoteConfigs: [[credentialsId: 'github-ssh', url: 'https://github.com/igor1234567/Infrastructure.git']]])
             }
         }
-	    stage('Compile-Package'){
+	 stage('Compile-Package'){
+		 steps{
 		    def mvnHome = tool name: 'maven-3', type: 'maven'
 		    sh '''${mvnHome}/bin/mvn package'''
 	    }
+	 }
 	stage('SonarQube Analysis') {
-		def mvnHome = tool name: 'maven-3', type: 'maven'
-		withSonarQubeEnv('SonarQube') {
+		steps{
+			def mvnHome = tool name: 'maven-3', type: 'maven'
+			withSonarQubeEnv('SonarQube') {
 			sh '''${mvnHome}/bin/mvn sonar:sonar'''
+		}
 	    }
 	}
         stage('Build') {
