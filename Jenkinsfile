@@ -1,4 +1,3 @@
-// Uses Declarative syntax to run commands inside a container.
 pipeline {
 
     agent { 
@@ -6,49 +5,46 @@ pipeline {
     }
 
     triggers {
-  pollSCM '* * * * *'
-}
-    /*tools {
-        maven 'Default Maven'
-    }*/
+        pollSCM '* * * * *'
+    }
+
     stages {
         stage('checkout code') {
             steps {
                 checkout([$class: 'GitSCM', branches: [[name: '*/dev--ans']], extensions: [], userRemoteConfigs: [[credentialsId: 'github-ssh', url: 'https://github.com/igor1234567/Infrastructure.git']]])
             }
         }
-	 stage('Compile-Package'){
-		 steps{
-		    def mvnHome = tool name: 'maven-3', type: 'maven'
-		    sh '''${mvnHome}/bin/mvn package'''
-	    }
-	 }
-	stage('SonarQube Analysis') {
-		steps{
-			def mvnHome = tool name: 'maven-3', type: 'maven'
-			withSonarQubeEnv('SonarQube') {
-			sh '''${mvnHome}/bin/mvn sonar:sonar'''
-		}
-	    }
-	}
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv() {
+                    script {
+                        def mvnHome = tool name: 'maven-3', type: 'maven'
+                        sh "${mvnHome}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=module-5 -Dsonar.projectName='module-5'"
+                    }
+                }
+            }
+        }
         stage('Build') {
             steps {
-		        sh 'mvn clean install'	
-                	sh '''docker build . -t igorripin/infrastructure_mvn:${BUILD_ID} '''
+                script {
+                    def mvnHome = tool name: 'maven-3', type: 'maven'
+                    sh "${mvnHome}/bin/mvn clean install"
+                    sh "docker build . -t igorripin/infrastructure_mvn:${BUILD_ID}"
+                }
             }
         }
         stage('Build and Push Docker Image') {
             steps {
-
+                script {
                     withCredentials([usernamePassword(credentialsId: 'igorripin-dockerhub', passwordVariable: 'docker_pass', usernameVariable: 'docker_user')]) {
-                        sh '''docker push igorripin/infrastructure_mvn:${BUILD_ID}'''
-                    }   
-
+                        sh "docker push igorripin/infrastructure_mvn:${BUILD_ID}"
+                    }
                     withCredentials([usernamePassword(credentialsId: 'nexus_user', passwordVariable: 'nexus_pass', usernameVariable: 'nexus_user')]) {
-                        sh '''docker push 3.72.80.151:8083/infrastructure_mvn:${BUILD_ID}'''
+                        sh "docker push 3.72.80.151:8083/infrastructure_mvn:${BUILD_ID}"
                     }
                 }
             }
+        }
     }
 }
 
