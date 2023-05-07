@@ -17,16 +17,16 @@ pipeline {
                 checkout([$class: 'GitSCM', branches: [[name: '*/dev--ans']], extensions: [], userRemoteConfigs: [[credentialsId: 'github-ssh', url: 'https://github.com/igor1234567/Infrastructure.git']]])
             }
         }
-        stage('SonarQube Analysis') {
-            steps {
-                script {
-                    def mvn = tool 'Default Maven'
-                    withSonarQubeEnv {
-                        sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=module-5 -Dsonar.projectName='module-5'"
-                    }
-                }
-            }
-        }
+	stage('SonarQube Analysis') {
+	    steps {
+		script {
+		    withSonarQubeEnv('SonarQube') {
+			tool 'maven'
+			sh "mvn clean verify sonar:sonar -Dsonar.projectKey=module-5 -Dsonar.projectName='module-5'"
+		    }
+		}
+	    }
+	}
         stage('Build') {
             steps {
 		        sh 'mvn clean install'	
