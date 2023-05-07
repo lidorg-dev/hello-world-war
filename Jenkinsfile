@@ -17,7 +17,7 @@ pipeline {
     stage('SonarQube Analysis') {
         steps {
             script {
-                def mvnHome = tool name: 'maven-3', type: 'maven'
+                def mvnHome = tool name: 'maven', type: 'maven'
                 def sonarQubeScannerHome = tool name: 'SonarQube', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
 
                 withSonarQubeEnv('SonarQube') {
@@ -29,7 +29,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    def mvnHome = tool name: 'maven-3', type: 'maven'
+                    def mvnHome = tool name: 'maven', type: 'maven'
                     sh "${mvnHome}/bin/mvn clean install"
                     sh "docker build . -t igorripin/infrastructure_mvn:${BUILD_ID}"
                 }
