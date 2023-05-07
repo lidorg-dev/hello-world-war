@@ -17,11 +17,11 @@ pipeline {
     stage('SonarQube Analysis') {
         steps {
             script {
-                def mvnHome = tool name: 'maven', type: 'maven'
+                //def mvnHome = tool name: 'maven', type: 'maven'
                 def sonarQubeScannerHome = tool name: 'SonarQube', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
 
                 withSonarQubeEnv('SonarQube') {
-                    sh '''"${mvnHome}/bin/mvn" clean verify sonar:sonar'''
+                    sh '''mvn clean verify sonar:sonar'''
                 }
             }
         }
