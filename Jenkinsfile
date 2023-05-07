@@ -17,20 +17,20 @@ pipeline {
                 checkout([$class: 'GitSCM', branches: [[name: '*/dev--ans']], extensions: [], userRemoteConfigs: [[credentialsId: 'github-ssh', url: 'https://github.com/igor1234567/Infrastructure.git']]])
             }
         }
+	    stage('Compile-Package'){
+		    def mvnHome = tool name: 'maven-3', type: 'maven'
+		    sh '''${mvnHome}/bin/mvn package'''
+	    }
 	stage('SonarQube Analysis') {
-	    steps {
-		script {
-		    withSonarQubeEnv('SonarQube') {
-			tool 'maven'
-			sh "mvn clean verify sonar:sonar -Dsonar.projectKey=module-5 -Dsonar.projectName='module-5'"
-		    }
-		}
+		def mvnHome = tool name: 'maven-3', type: 'maven'
+		withSonarQubeEnv('SonarQube') {
+			sh '''${mvnHome}/bin/mvn sonar:sonar'''
 	    }
 	}
         stage('Build') {
             steps {
 		        sh 'mvn clean install'	
-                sh '''docker build . -t igorripin/infrastructure_mvn:${BUILD_ID} '''
+                	sh '''docker build . -t igorripin/infrastructure_mvn:${BUILD_ID} '''
             }
         }
         stage('Build and Push Docker Image') {
