@@ -29,9 +29,9 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    def mvnHome = tool name: 'maven', type: 'maven'
-                    sh "${mvnHome}/bin/mvn clean install"
-                    sh "docker build . -t igorripin/infrastructure_mvn:${BUILD_ID}"
+                    //def mvnHome = tool name: 'maven', type: 'maven'
+                    sh '''mvn clean install'''
+                    sh '''docker build . -t igorripin/infrastructure_mvn:${BUILD_ID}'''
                 }
             }
         }
@@ -39,10 +39,10 @@ pipeline {
             steps {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'igorripin-dockerhub', passwordVariable: 'docker_pass', usernameVariable: 'docker_user')]) {
-                        sh "docker push igorripin/infrastructure_mvn:${BUILD_ID}"
+                        sh '''docker push igorripin/infrastructure_mvn:${BUILD_ID}'''
                     }
                     withCredentials([usernamePassword(credentialsId: 'nexus_user', passwordVariable: 'nexus_pass', usernameVariable: 'nexus_user')]) {
-                        sh "docker push 3.72.80.151:8083/infrastructure_mvn:${BUILD_ID}"
+                        sh '''docker push 3.72.80.151:8083/infrastructure_mvn:${BUILD_ID}'''
                     }
                 }
             }
