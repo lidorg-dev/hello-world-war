@@ -51,9 +51,9 @@ pipeline {
         stage('Build and Push To Nexus Image') {
             steps {
                     withCredentials([usernamePassword(credentialsId: 'nexus_user', passwordVariable: 'nexus_pass', usernameVariable: 'nexus_user')]) {
-
-                        sh '''docker login http://3.72.80.151:8081/repository/private/ -u $nexus_user -p $nexus_pass'''
-                        sh '''docker push http://3.72.80.151:8081/repository/private/ infrastructure_mvn:${BUILD_ID}'''
+                        sh '''docker tag igorripin/infrastructure_mvn:${BUILD_ID} 3.72.80.151:8083/infrastructure_mvn:${BUILD_ID}'''
+                        sh '''docker login 3.72.80.151:8083 -u $nexus_user -p $nexus_pass'''
+                        sh '''docker push 3.72.80.151:8083 infrastructure_mvn:${BUILD_ID}'''
                  }
             }
         }
