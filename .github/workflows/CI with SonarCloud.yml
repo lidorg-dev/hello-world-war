@@ -14,8 +14,9 @@ jobs:
     - name: SonarCloud Scan
       uses: SonarSource/sonarcloud-github-action@v2.0.2
       with:
-          username: ${{ secrets.SONARCLOUD_USERNAME }}
-          password: ${{ secrets.SONARCLOUD_TOKEN }}
+          entryPoint: sonar-scanner
+          args: -Dsonar.login=${{ secrets.SONARCLOUD_TOKEN }}
+          projectBaseDir: .
     - name: Build the Docker Image
       run: docker build -t . --file Dockerfile --tag hello-world-war:latest  
     - name: Eun & Test Container
