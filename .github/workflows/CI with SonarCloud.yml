@@ -10,7 +10,7 @@ on:
 jobs:
  
   Build_Scan_Test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntudocker
 
     steps:
     - name: Check out
