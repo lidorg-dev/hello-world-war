@@ -1,6 +1,9 @@
 name: CI with Docker and SonarCloud
 
 on:
+  push:
+    brunches:
+    - dev
 
   workflow_dispatch:
 
