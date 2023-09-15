@@ -9,7 +9,7 @@ on:
 
 jobs:
  
-  Build:
+  Build_Scan_Test:
     runs-on: ubuntu-latest
 
     steps:
@@ -18,11 +18,9 @@ jobs:
       uses: SonarSource/sonarcloud-github-action@v2.0.2
       with:
           entryPoint: sonar-scanner
-          args: -Dsonar.login=${{ secrets.SONARCLOUD_TOKEN }}
-          projectBaseDir: .
     - name: Build the Docker Image
       run: docker build -t . --file Dockerfile --tag hello-world-war:latest  
-    - name: Eun & Test Container
+    - name: Run & Test Container
       run: docker run -itd --name node_hello -p 8080:8080  hello-world-war:latest
     - run: sleep 5 && curl localhost:8080/hello-world-war-1.0.0
     - name: Retagging the Image 
