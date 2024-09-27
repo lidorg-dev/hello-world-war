@@ -8,10 +8,8 @@
 	<name>Hello World Web Application Repository</name>
 	<description>Simplest possible Java Webapp</description>
         <properties>
-                   <sonar.projectKey>lidorg-dev_hello-world-war</sonar.projectKey>
-                   <sonar.organization>lidorg-dev-github</sonar.organization>
-                   <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-                   <sonar.login>335713aaf5ef6a31c4df9ae094817cf223285633</sonar.login>
+                    <sonar.organization>arielmaor22</sonar.organization>
+  <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         </properties>
 	<build>
 
